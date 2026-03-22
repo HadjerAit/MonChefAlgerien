@@ -1,22 +1,43 @@
-README — TP2 Android 
- 
-1/Thème choisi:
+# Mon Chef Algérien 🍽️
 
-L’application présente des recettes traditionnelles algériennes, organisées en deux catégories : salées et sucrées.
-L’utilisateur peut consulter la liste des recettes, afficher les détails d’un plat, ajouter des favoris et changer le thème clair/sombre.
+## Thème de l'application
+Application de recettes algériennes.
+L'utilisateur peut consulter des recettes salées et sucrées,
+les ajouter aux favoris, en créer de nouvelles, les modifier ou les supprimer.
 
-2/Étapes pour lancer le projet:
+## Base de données
+Room (locale) — base de données SQLite via Room
 
-1. Cloner le dépôt GitHub :git clone https://github.com/HadjerAit/MonChefAlgerien.git
+## Comment lancer le projet
+1. Cloner le dépôt GitHub
 2. Ouvrir le projet dans Android Studio
-3. Laisser Gradle synchroniser automatiquement
-4. Lancer l’application sur un émulateur ou un appareil Android
+3. Lancer sur un émulateur ou un téléphone Android (API 26+)
 
-3/Emplacement du switch clair/sombre:
-Le bouton permettant de changer le thème se trouve dans la section supérieure de l’écran principal (ButtonsSection).
-Il apparaît sous forme de bouton :🎨 Couleur
+## Structure du projet (MVVM)
 
-Ce bouton appelle la fonction onToggleColor() et modifie l’état isDark dans `Maincreen.kt, ce qui change la couleur du fond entre :
-• mode clair (blanc)
-• mode sombre (gris foncé)
-Le changement est appliqué via :.background(if (isDark) Color(0xFF1E1E1E) else Color.White)
+- **DAO** : `app/src/main/java/com.example.monchefalgerien/data/local/RecetteDao.kt`
+- **Entity** : `app/src/main/java/com.example.monchefalgerien/data/local/Recette.kt`
+- **Database** : `app/src/main/java/com.example.monchefalgerien/data/local/RecetteDatabase.kt`
+- **Repository** : `app/src/main/java/com.example.monchefalgerien/data/repository/RecetteRepository.kt`
+- **ViewModel** : `app/src/main/java/com.example.monchefalgerien/viewmodel/RecetteViewModel.kt`
+- **UI** : `app/src/main/java/com.example.monchefalgerien/ui/`
+
+## DataStore
+Fichier : `data/datastore/PreferencesDataStore.kt`
+
+2 valeurs stockées :
+- `dark_theme` : thème sombre ou clair (impact sur l'UI : couleur du fond et du texte)
+- `show_favoris_only` : filtre pour afficher seulement les favoris (impact sur la liste affichée)
+
+## Requête unique
+Recherche par nom de recette via la barre de recherche (méthode `search()` dans le DAO)
+
+## Comment lancer les tests
+1. Ouvrir le fichier `app/src/test/java/com/example/monchefalgerien/RecetteTest.kt`
+2. Clic droit sur le fichier
+3. Cliquer sur **Run 'RecetteTest'**
+
+5 tests unitaires :
+- `testCreationRecette` : vérifier qu'une recette est bien créée
+- `testToggleFavori` : vérifier le toggle favori
+- `testFiltreCategorie

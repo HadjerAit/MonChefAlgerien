@@ -2,68 +2,41 @@ package com.example.monchefalgerien.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ButtonsSection(
     showSweet: Boolean,
     onToggleCategory: () -> Unit,
-    favorites: List<String>,
-    onAddFavorite: (String) -> Unit,
+    showFavorisOnly: Boolean,
+    onToggleFavorisOnly: () -> Unit,
     onShowFavorites: () -> Unit,
-    onToggleColor: () -> Unit  
+    onToggleColor: () -> Unit,
+    onAddRecette: () -> Unit
 ) {
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
-        // --- Ligne 1 : Favoris + Couleur ---
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-
-            ActionButton(
-                emoji = "📁",
-                label = "Favoris (${favorites.size})",
-                onClick = { onShowFavorites() }
-            )
-
-            ActionButton(
-                emoji = "🎨",
-                label = "Couleur",
-                onClick = { onToggleColor() }
-            )
-        }
-
-        Spacer(Modifier.height(12.dp))
-
-        // --- Ligne 2 : Sucré / Salé ---
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-
-            ActionButton(
-                emoji = "🍽️",
-                label = if (showSweet) "Salé" else "Sucré",
-                onClick = { onToggleCategory() }
-            )
-        }
+        ActionButton(emoji = "📁", label = "Favoris", onClick = onShowFavorites)
+        ActionButton(
+            emoji = if (showSweet) "🍽️" else "🍰",
+            label = if (showSweet) "Voir Salé" else "Voir Sucré",
+            onClick = onToggleCategory
+        )
+        ActionButton(emoji = "➕", label = "Ajouter", onClick = onAddRecette)
     }
 }
 
 @Composable
 fun ActionButton(emoji: String, label: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.width(160.dp)
-    ) {
-        Text("$emoji  $label")
+    Button(onClick = onClick, modifier = Modifier.width(120.dp)) {
+        Text("$emoji $label")
     }
 }
